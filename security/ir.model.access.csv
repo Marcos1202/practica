@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rnet_curso_all,Access.rnet.curso.all,model_rnet_curso,,1,1,1,1
+access_rnet_sesion_all,Access.rnet.sesion.all,model_rnet_sesion,,1,1,1,1

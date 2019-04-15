@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Vista de búsqueda -->
+    <record model="ir.ui.view" id="curso_view_search">
+      <field name="name">curso.search</field>
+      <field name="model">rnet.curso</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name"/>
+          <field name="descripcion"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- Vista de arbol -->
+    <record model="ir.ui.view" id="curso_view_tree">
+        <field name="name">curso.tree</field>
+        <field name="model">rnet.curso</field>
+        <field name="arch" type="xml">
+          <tree string="Cursos">
+            <field name="name"/>
+            <field name="responsable_id"/>
+          </tree>
+        </field>
+      </record>
+
+      <!-- Vista de formulario del curso -->
+    <record model ="ir.ui.view" id="curso_view_form">
+      <field name="name">curso.from</field>
+      <field name="model">rnet.curso</field>
+      <field name="arch" type="xml">
+        <form string="Curso">
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="responsable_id"/>
+            </group>
+            <notebook>
+              <page string="Descripciòn">
+                <group col="4" colspan="4">
+                  <field name="descripcion" nolabel="1"/>
+                </group>
+              </page>
+              <page string="Sesiones del curso">
+                <group col="4" colspan="4">
+                  <field name="sesion_ids" nolabel="1"/>
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Acción -->
+    <record model="ir.actions.act_window" id="curso_list_action">
+        <field name="name">Cursos</field>
+        <field name="res_model">rnet.curso</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+          <p class="oe_view_noconet_create">¡Genera el curso!</p>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="rnet_sesion_tree_view">
+      <field name="name">rnet.sesion.tree.view</field>
+      <field name="model">rnet.sesion</field>
+      <field name="arch" type="xml">
+        <tree string="Sesiones">
+          <field name="name"/>
+          <field name="inicio"/>
+          <field name="duracion"/>
+          <field name="instructor_id"/>
+          <field name="curso_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rnet_sesion_form_view">
+      <field name="name">rnet.sesion.form.view</field>
+      <field name="model">rnet.sesion</field>
+      <field name="arch" type="xml">
+        <form string="Sesiones">
+          <header>
+
+          </header>
+          <sheet>
+            <div class="oe_button_box" name="button_box">
+            </div>
+            <div class="oe_title">
+              <label for="name" class="oe_edit_only"/>
+              <h1>
+                <field name="name"/>
+              </h1>
+            </div>
+            <group>
+              <group>
+                <field name="curso_id"/>
+                <field name="inicio"/>
+                <field name="asientos"/>
+              </group>
+              <group>
+                <field name="instructor_id"/>
+                <field name="duracion"/>
+              </group>
+            </group>
+            <notebook>
+              <page string="Alumnos">
+                <group>
+
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="rnet_sesion_list_action">
+      <field name="name">Seciones rNet</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">rnet.sesion</field>
+      <field name="view_mode">tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Crea la primera sesión
+        </p>
+      </field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem id="main_rnet_curso_menu" name="rNet Cursos"/>
+    <menuitem id="rnet_curso_menu" name="Cursosr Net" parent="main_rnet_curso_menu"/>
+    <menuitem id="curso_menu" name="Cursos" parent="rnet_curso_menu" action="curso_list_action"
+      sequence="1"/>
+
+
+    <menuitem id="rnet_sesion_menu"
+      name="Sesiones"
+      action="rnet_sesion_list_action"
+      parent="rnet_curso_menu"
+      sequence="5"/>
+  </data>
+
+</odoo>

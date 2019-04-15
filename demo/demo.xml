@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+      <record model="rnet.curso" id="curso_01">
+        <field name="name"> Curso rNet Odoo Usuario</field>
+        <field name="descripcion"> Curso para usuarios generales del sistema Odoo</field>
+      </record>
+
+      <record model="rnet.curso" id="curso_02">
+        <field name="name"> Curso rNet Odoo Usuario Admin</field>
+        <field name="descripcion"> Curso para usuarios administradores del sistema Odoo</field>
+      </record>
+
+    </data>
+</odoo>
