@@ -18,6 +18,7 @@ class Sesion(models.Model):
     inicio = fields.Date()
     duracion = fields.Float(string="Duración", digits=(6,2), help = "Duración en dias")
     asientos = fields.Integer(String="Asientos")
-    instructor_id = fields.Many2one('res.partner', string="Instructor")
+    instructor_id = fields.Many2one('res.partner', string="Instructor",
+    domain=[('instructor', '=', True)])
     curso_id = fields.Many2one('rnet.curso', ondelete='cascade', string="Curso", required=True)
     asistente_ids = fields.Many2many('res.partner', 'partner_sesion_rel', 'sesion_id', 'partner_id', string="Asistentes")
