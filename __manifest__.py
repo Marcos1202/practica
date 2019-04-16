@@ -31,6 +31,7 @@
         'views/templates.xml',
         'demo/demo.xml',
         'views/curso_rnet.xml',
+        'views/partner.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

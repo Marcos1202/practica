@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="inherit_partner_form_view">
+      <field name="name">inherit.partner.form.view</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <notebook position="inside">
+          <page string="Sesiones">
+            <group>
+              <group>
+                <field name="instructor"/>
+              </group>
+              <group>
+              </group>
+              <field name="sesion_ids" colspan="4"/>
+            </group>
+          </page>
+        </notebook>
+      </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="res_partner_list_action">
+      <field name="name">Contactos</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">res.partner</field>
+      <field name="view_mode">kanban,tree,form</field>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          Da de alta el primer contacto
+        </p>
+      </field>
+    </record>
+
+    <menuitem id="partner_submenu"
+      name="Contactos"
+      parent="main_rnet_curso_menu"
+      sequence="10"/>
+
+      <menuitem id="partner_menu"
+        name="Contactos"
+        action="res_partner_list_action"
+        parent="partner_submenu"
+        sequence="5"/>
+  </data>
+</odoo>

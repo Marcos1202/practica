@@ -109,6 +109,7 @@
             <notebook>
               <page string="Alumnos">
                 <group>
+                  <field name ="asistente_ids"/>
 
                 </group>
               </page>
