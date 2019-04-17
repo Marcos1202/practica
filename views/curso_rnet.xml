@@ -74,6 +74,7 @@
           <field name="duracion"/>
           <field name="instructor_id"/>
           <field name="curso_id"/>
+          <field name="asientosReservados" widget="progressbar"/>
         </tree>
       </field>
     </record>
@@ -100,6 +101,7 @@
                 <field name="curso_id"/>
                 <field name="inicio"/>
                 <field name="asientos"/>
+                <field name="asientosReservados" widget="progressbar"/>
               </group>
               <group>
                 <field name="instructor_id"/>
