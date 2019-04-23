@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Registro del flujo-->
+    <record model="workflow" id="sesion_workflow">
+      <field name="name">Flujo de sesiones de Curso rNet</field>
+      <field name="osv">rnet.sesion</field>
+      <field name="on_create">True</field>
+    </record>
+
+    <!-- Registro de actividades del Flujo-->
+    <record model="workflow.activity" id="borrador">
+      <field name="name">Borrador</field>
+      <field name="wkf_id" ref="sesion_workflow"/>
+      <!-- Inicio del Flujo-->
+      <field name="flow_start" eval="True"/>
+      <field name="kind">function</field>
+      <field name="action">action_borrador()</field>
+    </record>
+    <record model="workflow.activity" id="confirmada">
+      <field name="name">Confirmada</field>
+      <field name="wkf_id" ref="sesion_workflow"/>
+      <field name="kind">function</field>
+      <field name="action">action_confirmar()</field>
+    </record>
+    <record model="workflow.activity" id="realizada">
+      <field name="name">Realizada</field>
+      <field name="wkf_id" ref="sesion_workflow"/>
+      <!--Fin del flujo-->
+      <field name="flow_stop" eval="True"/>
+      <field name="kind">function</field>
+      <field name="action">action_realizar()</field>
+    </record>
+    <record model="workflow.activity" id="cancelada">
+      <field name="name">Cancelada</field>
+      <field name="wkf_id" ref="sesion_workflow"/>
+      <!--Fin del flujo-->
+      <field name="flow_stop" eval="True"/>
+      <field name="kind">function</field>
+      <field name="action">action_cancelar()</field>
+    </record>
+
+  <!-- Registro de Transiciones del Flujo-->
+  <record model="workflow.transition" id="sesion_borrador_a_confirmada">
+    <field name="act_from" ref="borrador"/>
+    <field name="act_to" ref="confirmada"/>
+    <field name="signal">confirmar</field>
+  </record>
+  <record model="workflow.transition" id="sesion_borrador_a_cancelada">
+    <field name="act_from" ref="borrador"/>
+    <field name="act_to" ref="cancelada"/>
+    <field name="signal">cancelar</field>
+  </record>
+  <record model="workflow.transition" id="sesion_confirmada_a_borrador">
+    <field name="act_from" ref="confirmar"/>
+    <field name="act_to" ref="borrador"/>
+    <field name="signal">borrador</field>
+  </record>
+  <record model="workflow.transition" id="sesion_confirmada_a_realizada">
+    <field name="act_from" ref="confirmada"/>
+    <field name="act_to" ref="realizada"/>
+    <field name="signal">realizar</field>
+  </record>
+  <record model="workflow.transition" id="sesion_confirmada_a_cancelada">
+    <field name="act_from" ref="confirmada"/>
+    <field name="act_to" ref="cancelada"/>
+    <field name="signal">cancelar</field>
+  </record>
+
+  <!--Transición automática cuando se registran mas del 50%-->
+  <record model="workflow.transition" id="sesion_autoconfirmar_mitad_registros">
+    <field name="act_from" ref="borrador"/>
+    <field name="act_to" ref="confirmada"/>
+    <field name="condition">asientosReservados &gt; 50</field>
+  </record>
+  
+
+  </data>
+</odoo>

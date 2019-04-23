@@ -9,6 +9,12 @@
         <search>
           <field name="name"/>
           <field name="descripcion"/>
+          <filter name="mis_cursos" string="Mis Cursos"
+                  domain="[('responsable_id', '=', uid)]"/>
+          <group string="Group By">
+            <filter name="responsable" string="Responsable"
+            context="{'group_by': 'responsable_id'}"/>
+          </group>
         </search>
       </field>
     </record>
@@ -53,17 +59,30 @@
       </field>
     </record>
 
+    <!-- Vista de Calendario-->
+    <record model="ir.ui.view" id="sesion_view_calendar">
+      <field name="name">sesion.calendar</field>
+      <field name="model">rnet.sesion</field>
+      <field name="arch" type="xml">
+        <calendar string="Calendario de sesiones" date_start="inicio">
+          <field name="name"/>
+        </calendar>
+      </field>
+    </record>
+
     <!-- Acción -->
     <record model="ir.actions.act_window" id="curso_list_action">
         <field name="name">Cursos</field>
         <field name="res_model">rnet.curso</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
+        <field name="context" eval="{'search_default_mis_cursos': 1}"/>
         <field name="help" type="html">
           <p class="oe_view_noconet_create">¡Genera el curso!</p>
         </field>
     </record>
 
+<!--vista de arbol-->
     <record model="ir.ui.view" id="rnet_sesion_tree_view">
       <field name="name">rnet.sesion.tree.view</field>
       <field name="model">rnet.sesion</field>
@@ -85,7 +104,22 @@
       <field name="arch" type="xml">
         <form string="Sesiones">
           <header>
-
+            <!-- Botones de flujo-->
+            <button name = "action_borrador" type="object"
+                    string="Regresar a borrador"
+                    states="confirmada"/>
+            <button name="action_confirmar" type="object"
+                    string="Confirmar" states="borrador"
+                    class="oe_highlight"/>
+            <button name="action_realizar" type="object"
+                    string="Marcar como realizada" states="confirmada"
+                    class="oe_highlight"/>
+            <button name="action_cancelar" type="object"
+                    string="Cancelar" states="borrador, confirmada"
+                    class="oe_highlight"/>
+            <!-- Barra de estado-->
+            <field name="state" widget="statusbar"
+              statusbar_visible="borrador,confirmada,realizada"/>
           </header>
           <sheet>
             <div class="oe_button_box" name="button_box">
@@ -106,6 +140,7 @@
               <group>
                 <field name="instructor_id"/>
                 <field name="duracion"/>
+                <field name="fin"/>
               </group>
             </group>
             <notebook>
@@ -121,6 +156,7 @@
       </field>
     </record>
 
+<!-- Accion-->
     <record model="ir.actions.act_window" id="rnet_sesion_list_action">
       <field name="name">Seciones rNet</field>
       <field name="type">ir.actions.act_window</field>

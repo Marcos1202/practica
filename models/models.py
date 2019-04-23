@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, exceptions
+from datetime import timedelta
 
 class Curso(models.Model):
     _name = 'rnet.curso'
@@ -24,7 +25,7 @@ class Sesion(models.Model):
     _name = 'rnet.sesion'
 
     name=fields.Char(string="Nombre", required=True, default = '/')
-    inicio = fields.Date(default=lambda self:fields.Date.today())
+    inicio = fields.Datetime(default=lambda self:fields.Datetime.now())
     duracion = fields.Float(string="Duración", digits=(6,2), help = "Duración en dias")
     asientos = fields.Integer(String="Asientos")
     instructor_id = fields.Many2one('res.partner', string="Instructor",
@@ -32,7 +33,37 @@ class Sesion(models.Model):
     curso_id = fields.Many2one('rnet.curso', ondelete='cascade', string="Curso", required=True)
     asistente_ids = fields.Many2many('res.partner', 'partner_sesion_rel', 'sesion_id', 'partner_id', string="Asistentes")
     asientosReservados = fields.Float(string="Asientos Reservados", compute='_asientosReservados')
-#Defunimis una funcion
+    fin = fields.Datetime(string="Fin", store=True, compute='_getFin', inverse= '_setFin' )
+    state = fields.Selection([
+        ('borrador', "Borrador"),
+        ('confirmada', "Confirmada"),
+        ('realizada', "Realizada"),
+        ('cancelada', "Cancelada"),
+    ], string = "Estado", copy = False, default='borrador')
+
+#funciones para los estados
+    @api.multi
+    def action_borrador(self):
+        for i in self:
+            i.state = 'borrador'
+
+    @api.multi
+    def action_confirmar(self):
+        for i in self:
+            i.state = 'confirmada'
+
+    @api.multi
+    def action_realizar(self):
+        for i in self:
+            i.state = 'realizada'
+
+    @api.multi
+    def action_cancelar(self):
+        for i in self:
+            i.state = 'cancelada'
+
+
+#Defunimos una funcion
     @api.depends('asientos', 'asistente_ids')
     def _asientosReservados(self):
         for record in self:
@@ -61,6 +92,22 @@ class Sesion(models.Model):
                     " reasigne a los reservantes",
                 },
             }
+    @api.depends('inicio', 'duracion')
+    def _getFin(self):
+        for record in self:
+            if not (record.inicio and record.duracion):
+                record.fin = record.inicio
+                continue
+            inicio = fields.Datetime.from_string(record.inicio)
+            duracion = timedelta(days=(record.duracion - 1))
+            record.fin = inicio + duracion
+    def _setFin(self):
+        for record in self:
+            if not (record.inicio and record.fin):
+                continue
+            inicio = fields.Datetime.from_string(record.inicio)
+            fin = fields.Datetime.from_string(record.fin)
+            record.duracion = (fin - inicio).days + 1
 
     @api.constrains('instructor_id', 'asistente_ids')
     def _check_instructor_not_in_attendees(self):

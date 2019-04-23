@@ -26,12 +26,15 @@
 
     # always loaded
     'data': [
+        'security/security.xml',
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/templates.xml',
         'demo/demo.xml',
+        #'workflow/sesion_workflow.xml',
         'views/curso_rnet.xml',
         'views/partner.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [
