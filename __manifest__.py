@@ -34,6 +34,7 @@
         #'workflow/sesion_workflow.xml',
         'views/curso_rnet.xml',
         'views/partner.xml',
+        'views/wizard.xml',
 
     ],
     # only loaded in demonstration mode

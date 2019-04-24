@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <record model="ir.ui.view" id="wizard_form_view">
+      <field name="name">wizard.form</field>
+      <field name="model">rnet.wizard</field>
+      <field name="arch" type="xml">
+        <form string="Agregar Asistentes">
+          <group>
+            <field name="sesion_ids"/>
+            <field name="asistente_ids"/>
+          </group>
+          <footer>
+            <button name="suscribir" type="object"
+              string="Confirmar" class="oe_highlight"/>
+              O
+            <button special="cancel" string="Cancelar"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <!--Accion especial de ventana-->
+    <act_window id="sesion_wizard_action"
+      name="Agregar Asistentes"
+      src_model="rnet.sesion"
+      res_model="rnet.wizard"
+      view_mode="form"
+      target="new"
+      key2="client_action_multi"/>
+  </data>
+</odoo>

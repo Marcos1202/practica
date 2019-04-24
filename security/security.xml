@@ -4,5 +4,20 @@
     <record id="admin_curso" model="res.groups">
       <field name="name">rNet Cursos / Admin </field>
     </record>
+
+    <record id="solo_responsable_puede_modificar" model="ir.rule">
+      <field name="name">Solo el responsable puede modificar el curso</field>
+      <field name="model_id" ref="model_rnet_curso"/>
+      <field name="groups" eval="[(4, ref('practica.admin_curso'))]"/>
+      <field name="perm_read" eval="0"/>
+      <field name="perm_write" eval="1"/>
+      <field name="perm_create" eval="0"/>
+      <field name="perm_unlink" eval="1"/>
+      <field name="domain_force">
+        ['|', ('responsable_id','=',False),
+              ('responsable_id','=',user.id)]
+      </field>
+    </record>
+
   </data>
 </odoo>
