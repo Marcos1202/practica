@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <report
+      id="reporte_sesion"
+      model="rnet.sesion"
+      string="Lista de Asistencia"
+      name="practica.report_sesion_view"
+      file="practica.report_sesion"
+      report_type="qweb-pdf" />
+
+    <template id="report_sesion_view">
+      <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+          <t t-call="web.external_layout">
+            <div class="page">
+                <h2 t-field="doc.name"/>
+                <p>Del <span t-field="doc.inicio"/> al <span t-field="doc.fin"/></p>
+                <h3>Asistentes:</h3>
+                <ul>
+                <t t-set="cont" t-value="1"/>
+                <t t-foreach="doc.asistente_ids" t-as="asistente">
+                      <li><t t-esc ="cont"/>
+                        <span t-field="asistente.name"/></li>
+                      <t t-set="cont" t-value="cont + 1"/>
+                </t>
+
+                </ul>
+            </div>
+          </t>
+          </t>
+      </t>
+    </template>
+  </data>
+</odoo>
